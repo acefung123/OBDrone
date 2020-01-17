@@ -1,0 +1,197 @@
+
+// https://zacsuo.github.io/ScratchSerial/armDemo.js
+
+(function(ext) {
+
+    var currentBaud = 115200;
+    var currentStatus = 1;
+
+    // 当插件退出时要做的事情
+    ext._shutdown = function() {};
+ 
+    // 状态描述，用于提示插件的错误信息，比如不支持浏览器及版本等
+    ext._getStatus = function() {
+        var tmpResult = {status: 1, msg: '等待连接'};
+        
+        if(currentStatus == 2)
+        {
+            tmpResult.status = 2;
+            tmpResult.msg = '连接成功';
+        }
+        
+        return tmpResult;
+    };
+
+    ext.ACC_Cal = function(){        //陀螺仪校准
+        $.ajax({
+            url:'http://localhost:8800/h',
+            data:{
+                dt:1
+            }
+        });
+    };
+
+    ext.Mag_Cal = function(){     //地磁校准
+        $.ajax({
+            url:'http://localhost:8800/h',
+            data:{
+                dt:2
+            }
+        });
+    };
+
+    ext.Lock = function(){//上锁
+        $.ajax({
+            url:'http://localhost:8800/h',
+            data:{
+                dt:3
+            }
+        });
+    };
+
+    ext.UnLock = function(){//解锁
+        $.ajax({
+            url:'http://localhost:8800/h',
+            data:{
+                dt:4
+            }
+        });
+    };
+
+    ext.Auto_Fly = function(){//自动起飞
+        $.ajax({
+            url:'http://localhost:8800/p',
+            data:{
+                dt:5
+            }
+        });
+    };
+    ext.Auto_Down = function(){//自动下降
+        $.ajax({
+            url:'http://localhost:8800/p',
+            data:{
+                dt:6
+            }
+        });
+    };
+
+
+    ext.Up_Vaule = function(msg){//上升
+        $.ajax({
+            url:'http://localhost:8800/m',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.Down_Vaule = function(msg){//下降
+        $.ajax({
+            url:'http://localhost:8800/a',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.check_connection = function(){
+    };
+
+    ext.Forward_Vaule = function(msg){//向前
+        $.ajax({
+            url:'http://localhost:8800/b',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.Backwards_Vaule = function(msg){//向后
+        $.ajax({
+            url:'http://localhost:8800/c',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.check_connection = function(){
+    };
+
+
+
+    ext.Left_Vaule = function(msg){//向左
+        $.ajax({
+            url:'http://localhost:8800/d',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.Right_Vaule = function(msg){//向右
+        $.ajax({
+            url:'http://localhost:8800/e',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.check_connection = function(){
+    };
+
+
+    ext.TurnLeft_Vaule = function(msg){//左转
+        $.ajax({
+            url:'http://localhost:8800/f',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.TurnRight_Vaul = function(msg){//右转
+        $.ajax({
+            url:'http://localhost:8800/g',
+            data:{
+
+                dt:msg
+            }
+        });
+    };
+    ext.check_connection = function(){
+    };
+
+
+    // 模块描述
+    var descriptor = {
+        blocks: [
+            // 模块类型, 模块名称, 对应方法名称，参数依次对应的默认值
+            [' ', '陀螺仪校准 ', 'ACC_Cal'],
+            [' ', '地磁校准 ', 'Mag_Cal'],
+            [' ', '锁定 ', 'Lock'],
+            [' ', '解锁 ', 'UnLock'],
+            [' ', '自动起飞 ', 'Auto_Fly'],
+            [' ', '自动下降 ', 'Auto_Down'],
+            [' ', '上升%s ', 'Up_Vaule','10'],
+            [' ', '下降%s ', 'Down_Vaule','10'],
+            [' ', '前进%s ', 'Forward_Vaule','10'],
+            [' ', '后退%s ', 'Backwards_Vaule','10'],
+            [' ', '向左%s ', 'Left_Vaule','10'],
+            [' ', '向右%s ', 'Right_Vaule','10'],
+            [' ', '左转%s ', 'TurnLeft_Vaule','10'],
+            [' ', '右转%s ', 'TurnRight_Vaule','10'],
+
+        ],
+        menus:{
+            my_first_menu:['one','two','three'],
+            baudRates: [2400, 9600, 19200, 38400, 57600, 115200]
+        },
+        url:'https://github.com/zacSuo/ScratchSerial',
+        displayName: 'OB飞行模块功能测试'
+    };
+ 
+    // 注册扩展插件
+    ScratchExtensions.register('OB飞行模块', descriptor, ext);
+})({});
